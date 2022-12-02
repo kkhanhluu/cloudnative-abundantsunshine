@@ -6,12 +6,12 @@ spec:
   selector:
     app: connectionsposts
   ports:
-  - protocol: "TCP"
-    port: 80
-    targetPort: 8080
+    - protocol: 'TCP'
+      port: 80
+      targetPort: 8080
   type: NodePort
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: connectionsposts
@@ -28,20 +28,20 @@ spec:
         app: connectionsposts
     spec:
       containers:
-      - name: connectionsposts
-        image: cdavisafc/cloudnative-appconfig-connectionposts:0.0.1
-        env:
-          - name: INSTANCE_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
-          - name: CONNECTIONPOSTSCONTROLLER_POSTSURL
-            value: "http://192.168.99.100:32510/posts?userIds="
-          - name: CONNECTIONPOSTSCONTROLLER_CONNECTIONSURL
-            value: "http://192.168.99.100:31773/connections/"
-          - name: CONNECTIONPOSTSCONTROLLER_USERSURL
-            value: "http://192.168.99.100:31773/users/"
-          - name: REDIS_HOSTNAME
-            value: "192.168.99.100"
-          - name: REDIS_PORT
-            value: "31537"
+        - name: connectionsposts
+          image: cdavisafc/cloudnative-appconfig-connectionposts:0.0.1
+          env:
+            - name: INSTANCE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONNECTIONPOSTSCONTROLLER_POSTSURL
+              value: 'http://192.168.64.3:31951/posts?userIds='
+            - name: CONNECTIONPOSTSCONTROLLER_CONNECTIONSURL
+              value: 'http://192.168.64.3:30235/connections/'
+            - name: CONNECTIONPOSTSCONTROLLER_USERSURL
+              value: 'http://192.168.64.3:30235/users/'
+            - name: REDIS_HOSTNAME
+              value: '192.168.64.3'
+            - name: REDIS_PORT
+              value: '32092'

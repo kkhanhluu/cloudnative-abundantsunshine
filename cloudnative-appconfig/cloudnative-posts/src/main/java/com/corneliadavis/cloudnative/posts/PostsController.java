@@ -1,14 +1,19 @@
 package com.corneliadavis.cloudnative.posts;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-import com.corneliadavis.cloudnative.Utils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import com.corneliadavis.cloudnative.Utils;
 
 @RestController
 public class PostsController {
@@ -24,8 +29,9 @@ public class PostsController {
     @Autowired
     Utils utils;
 
-    @RequestMapping(method = RequestMethod.GET, value="/posts")
-    public Iterable<Post> getPostsByUserId(@RequestParam(value="userIds", required=false) String userIds, HttpServletResponse response) {
+    @RequestMapping(method = RequestMethod.GET, value = "/posts")
+    public Iterable<Post> getPostsByUserId(@RequestParam(value = "userIds", required = false) String userIds,
+            HttpServletResponse response) {
 
         Iterable<Post> posts;
 
@@ -46,12 +52,11 @@ public class PostsController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value="/posts")
+    @RequestMapping(method = RequestMethod.POST, value = "/posts")
     public void newPost(@RequestBody Post newPost, HttpServletResponse response) {
 
         logger.info(utils.ipTag() + "Have a new post with title " + newPost.getTitle());
         postRepository.save(newPost);
     }
-
 
 }
